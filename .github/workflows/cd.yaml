@@ -51,13 +51,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Zip artifact for CodeDeploy
-        run: |
-          zip -r deploy.zip codedeploy appspec.yml scripts/
-
-      - name: S3 Upload zip
-        run: aws s3 cp --region ap-northeast-2 ./deploy.zip s3://${{ secrets.BUCKET_NAME }}/${{ env.PROJECT_NAME }}/deploy.zip
-
       - name: CodeDeploy
         run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=${{ secrets.BUCKET_NAME }},bundleType=zip,key=$CODE_DEPLOY_APP_NAME/deploy.zip
 
