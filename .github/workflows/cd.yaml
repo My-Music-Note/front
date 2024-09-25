@@ -52,7 +52,7 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: CodeDeploy
-        run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=${{ secrets.BUCKET_NAME }},bundleType=zip,key=$CODE_DEPLOY_APP_NAME/deploy.zip
+        run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=${{ secrets.BUCKET_NAME }},bundleType=zip,key=${{ env.PROJECT_NAME }}/deploy.zip
 
 
 
