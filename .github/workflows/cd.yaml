@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Continuous Deployment
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   DEPLOYMENT_GROUP_NAME: front-deploy
 
 jobs:
-  build-and-push-to-docker:
+  build-and-push-to-docker-and-deploy:
     runs-on: ubuntu-20.04
     steps:
 
