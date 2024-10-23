@@ -42,7 +42,11 @@ jobs:
         with:
           push: true
           platforms: linux/arm64
-          tags: masiljangajji/front-app:latest
+          tags: masiljangajji/front-app:${{ github.sha }}
+
+      - name: Zip artifact for CodeDeploy
+        run: |
+          zip -r $GITHUB_SHA.zip appspec.yml scripts/
 
       - name: AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -51,9 +55,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: CodeDeploy
-        run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=${{ secrets.BUCKET_NAME }},bundleType=zip,key=${{ env.PROJECT_NAME }}/deploy.zip
+      - name: S3 Upload zip
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ secrets.BUCKET_NAME }}/${{ env.PROJECT_NAME }}/$GITHUB_SHA.zip
 
+      - name: CodeDeploy
+        run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $DEPLOYMENT_GROUP_NAME --s3-location bucket=${{ secrets.BUCKET_NAME }},bundleType=zip,key=${{ env.PROJECT_NAME }}/$GITHUB_SHA.zip
 
 
 
