@@ -42,7 +42,10 @@ jobs:
         with:
           push: true
           platforms: linux/arm64
-          tags: masiljangajji/front-app:${{ github.sha }}
+          tags: |
+            masiljangajji/front-app:latest
+            masiljangajji/front-app:${{ github.sha }}
+          
 
       - name: Zip artifact for CodeDeploy
         run: |
