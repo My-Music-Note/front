@@ -19,9 +19,6 @@ jobs:
         with:
           ref: ${{ github.event.push.base_ref }}
 
-      - name: Install NPM
-        run: npm install
-
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
