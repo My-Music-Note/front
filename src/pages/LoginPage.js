@@ -8,6 +8,7 @@ import "./LoginPage.css";
 function LoginPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  console.log(user); // 추후 사용을 위해 콘솔에 출력하여 경고 제거
 
   const handleLoginSuccess = (credentialResponse) => {
     const decoded = jwtDecode(credentialResponse.credential);
